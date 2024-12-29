@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Security Verification</title>
+    <link rel="stylesheet" href="indew.css">
+    <script>
+        function handleSecurityVerification(event) {
+            event.preventDefault();
+            const form = document.getElementById('security-verification-form');
+            const formData = new FormData(form);
+
+            fetch('admin_security_verify.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Security verification successful!');
+                    window.location.href = 'admin_dashboard.php';
+                } else if (data.error) {
+                    alert(data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</head>
+<body>
+
+    <!-- Security Verification Section -->
+    <section id="security-verification" class="features">
+        <h2>Admin Security Verification</h2>
+        <div class="login-card">
+            <form id="security-verification-form" onsubmit="handleSecurityVerification(event)" method="POST">
+                <input type="text" id="security_code" name="security_code" placeholder="Security Code" required>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <button type="submit">Verify</button>
+            </form>
+        </div>
+    </section>
+
+</body>
+</html>

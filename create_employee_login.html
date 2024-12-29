@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="create_employee_logi.css">
+    <title>Create Employee Login</title>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <nav>
+            <h2>Admin Panel</h2>
+            <a href="admin_dashboard.php" class="active">
+                <i class="icon-dashboard"></i> Admin Dashboard
+            </a>
+            <a href="view_employees.php">
+                <i class="icon-employees"></i> View Employees
+            </a>
+            <a href="process_payroll.php">
+                <i class="icon-payroll"></i> Pay Employee
+            </a>
+            <a href="search_employee.html">
+                <i class="icon-employees-csv"></i> Search for Employees
+            </a>
+            <a href="activity_logs.php">
+                <i class="icon-logs"></i> View Activity Logs
+            </a>
+            <a href="generate_report.php">
+                <i class="icon-Generate-Custom-Report"></i> Generate Report
+            </a>
+            <a href="manage_tasks.php">
+                <i class="icon-tasks"></i> Tasks
+            </a>
+            <a href="generate_payroll_report.php">
+                <i class="icon-Generate-payroll-Report"></i> Payroll Report
+            </a>
+            <a href="add_employee_benefit.php">
+                <i class="icon-employee-benefit"></i> Employee Benefits
+            </a>
+            <a href="view_employee_benefits.php">
+                <i class="icon-employee-benefit"></i> View Employee Benefits
+            </a>
+            <a href="add_employee_deduction.php">
+                <i class="icon-performance"></i> Employee Deduction
+            </a>
+            <a href="view_employee_deductions.php">
+                <i class="icon-performance"></i> View Employee Deduction
+            </a>
+            <a href="view_feedback.php">
+                <i class="icon-view-feedback"></i> View Feedback
+            </a>
+            <a href="send_notification.php">
+                <i class="icon-send-notification"></i> Add Notification
+            </a>
+            <a href="notifications.php">
+                <i class="icon-notifications"></i> View Notifications
+            </a>
+            <a href="logout.php" class="logout">
+                <i class="icon-logout"></i> Logout
+            </a>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="login-container">
+                <h2>Create Employee Login Account</h2>
+                <form id="createLoginForm" action="create_employee_login.php" method="post">
+                    <!-- Search Field -->
+                    <label for="search-employee">Search Employee by Name:</label>
+                    <div>
+                        <input type="text" id="search-employee" placeholder="Enter Employee Name" required oninput="validateAlpha(this)">
+                        <button type="button" onclick="searchEmployee()">Search</button>
+                    </div>
+
+                    <!-- Dropdown for Search Results -->
+                    <label for="employee-select">Select Employee:</label>
+                    <select id="employee-select" onchange="populateEmployeeDetails()">
+                        <option value="">-- No Employee Selected --</option>
+                    </select>
+
+                    <!-- Auto-filled Fields -->
+                    <label for="employee-id">Employee ID:</label>
+                    <input type="text" id="employee-id" name="employee-id" readonly required>
+
+                    <label for="employee-name">Employee Name:</label>
+                    <input type="text" id="employee-name" name="employee-name" readonly required>
+
+                    <label for="email">Email:</label>
+                    <input type="text" id="email" name="email" readonly required>
+
+                    <label for="department">Department:</label>
+                    <input type="text" id="department" name="department" readonly required>
+
+                    <label for="salary">Salary:</label>
+                    <input type="text" id="salary" name="salary" readonly required>
+
+                    <!-- Input Fields -->
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+
+                    <button type="submit">Create Login Account</button>
+                </form>
+                <div id="message" class="popup"></div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function searchEmployee() {
+            const searchValue = document.getElementById('search-employee').value.trim();
+            const employeeSelect = document.getElementById('employee-select');
+            employeeSelect.innerHTML = '<option value="">-- No Employee Selected --</option>';
+
+            if (searchValue.length > 2) {
+                fetch('search_employee_name.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: 'name=' + encodeURIComponent(searchValue)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (Array.isArray(data) && data.length > 0) {
+                        data.forEach(employee => {
+                            const option = document.createElement('option');
+                            option.value = JSON.stringify(employee); // Store full employee details
+                            option.textContent = `${employee.name} (ID: ${employee.id})`;
+                            employeeSelect.appendChild(option);
+                        });
+                        alert('Employee found!'); // Show success alert
+                    } else {
+                        alert('No employees found.'); // Show error alert
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error occurred during search.'); // Show error alert
+                });
+            }
+        }
+
+        function populateEmployeeDetails() {
+            const employeeSelect = document.getElementById('employee-select');
+            const selectedOption = employeeSelect.options[employeeSelect.selectedIndex];
+
+            if (selectedOption.value) {
+                const employee = JSON.parse(selectedOption.value);
+                document.getElementById('employee-id').value = employee.id;
+                document.getElementById('employee-name').value = employee.name;
+                document.getElementById('email').value = employee.email;
+                document.getElementById('department').value = employee.department;
+                document.getElementById('salary').value = employee.salary;
+            } else {
+                document.getElementById('employee-id').value = '';
+                document.getElementById('employee-name').value = '';
+                document.getElementById('email').value = '';
+                document.getElementById('department').value = '';
+                document.getElementById('salary').value = '';
+            }
+        }
+
+        document.getElementById('createLoginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const formData = new FormData(this); // Collect form data
+
+            fetch('create_employee_login.php', { // Make the POST request
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Check what is being returned
+                alert(data.message); // Show alert message
+                if (data.status === 'success') {
+                    this.reset(); // Reset the form on success
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred during registration.'); // Show error alert
+            });
+        });
+
+        function validateAlpha(input) {
+            input.value = input.value.replace(/[^a-zA-Z\s]/g, '');
+        }
+    </script>
+</body>
+</html>

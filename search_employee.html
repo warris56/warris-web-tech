@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="create_search_employe.css">
+    <title>Create and Search Employee</title>
+    <style>
+        .forms-section {
+            margin: 20px;
+        }
+        .forms-section h3 {
+            margin-bottom: 20px;
+        }
+        .forms-section label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        .forms-section input, .forms-section select, .forms-section button {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <nav>
+            <h2>Admin Panel</h2>
+            <a href="admin_dashboard.php" class="active">
+                <i class="icon-dashboard"></i> Admin Dashboard
+            </a>
+            <a href="view_employees.php">
+                <i class="icon-employees"></i> View Employees
+            </a>
+            <a href="create_employee_login.html">
+                <i class="icon-create-login"></i> Create Employee Login
+            </a>
+            <a href="process_payroll.php">
+                <i class="icon-payroll"></i> Pay Employee
+            </a>
+            <a href="activity_logs.php">
+                <i class="icon-logs"></i> View Activity Logs
+            </a>
+            <a href="generate_report.php">
+                <i class="icon-Generate-Custom-Report"></i> Generate Report
+            </a>
+            <a href="manage_tasks.php">
+                <i class="icon-tasks"></i> Tasks
+            </a>
+            <a href="generate_payroll_report.php">
+                <i class="icon-Generate-payroll-Report"></i> Payroll Report
+            </a>
+            <a href="add_employee_benefit.php">
+                <i class="icon-employee-benefit"></i> Employee Benefits
+            </a>
+            <a href="view_employee_benefits.php">
+                <i class="icon-employee-benefit"></i> View Employee Benefits
+            </a>
+            <a href="add_employee_deduction.php">
+                <i class="icon-performance"></i> Employee Deduction
+            </a>
+            <a href="view_employee_deductions.php">
+                <i class="icon-performance"></i> View Employee Deduction
+            </a>
+            <a href="view_feedback.php">
+                <i class="icon-view-feedback"></i> View Feedback
+            </a>
+            <a href="send_notification.php">
+                <i class="icon-send-notification"></i> Add Notification
+            </a>
+            <a href="notifications.php">
+                <i class="icon-notifications"></i> View Notifications
+            </a>
+            <a href="logout.php" class="logout">
+                <i class="icon-logout"></i> Logout
+            </a>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <section class="forms-section">
+                <form id="createEmployeeForm" action="create_employee.php" method="POST" onsubmit="return validateForm()">
+                    <h3>Create New Employee</h3>
+
+                    <!-- Search Input -->
+                    <label for="search-employee">Search Employee by ID:</label>
+                    <div>
+                        <input type="text" id="search-employee" placeholder="Enter Employee ID">
+                        <button type="button" onclick="searchEmployee()">Search</button>
+                    </div>
+                    
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                    
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                    
+                    <label for="department">Department</label>
+                    <select id="department" name="department" required>
+                        <option value="">Select Department</option>
+                        <option value="HR">Human Resources</option>
+                        <option value="IT">Information Technology</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Sales">Sales</option>
+                    </select>
+                    
+                    <label for="salary">Salary</label>
+                    <input type="number" id="salary" name="salary" required>
+                    
+                    <button type="submit">Create Employee</button>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        var employeeExists = false;
+
+        function searchEmployee() {
+            var searchValue = document.getElementById('search-employee').value;
+            console.log('Search Value:', searchValue); // Log the search value
+
+            if (searchValue.length > 2) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', 'search_employee.php', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        console.log('Response:', xhr.responseText); // Log the response
+                        
+                        try {
+                            var employee = JSON.parse(xhr.responseText);
+                            console.log('Parsed Employee:', employee); // Log the parsed employee object
+
+                            if (employee && employee.name) {
+                                document.getElementById('name').value = employee.name;
+                                document.getElementById('email').value = employee.email;
+                                document.getElementById('department').value = employee.department;
+                                document.getElementById('salary').value = employee.salary;
+                                employeeExists = true;
+                                alert("Employee already exists.");
+                            } else {
+                                clearForm();
+                                employeeExists = false;
+                            }
+                        } catch (error) {
+                            console.error('Error parsing JSON:', error);
+                            clearForm();
+                            employeeExists = false;
+                        }
+                    } else {
+                        console.error('Error:', xhr.status); // Log any HTTP errors
+                    }
+                };
+                
+                xhr.onerror = function () {
+                    console.error('Request failed'); // Log request failures
+                };
+
+                xhr.send('id=' + encodeURIComponent(searchValue));
+            } else {
+                clearForm();
+            }
+        }
+
+        function validateForm() {
+            if (employeeExists) {
+                alert("Cannot create a new employee. The employee already exists.");
+                return false;
+            }
+            return true;
+        }
+
+        function clearForm() {
+            document.getElementById('name').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('department').value = '';
+            document.getElementById('salary').value = '';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin ID Verification</title>
+    <link rel="stylesheet" href="indeq.css">
+    <script>
+        function handleIDVerification(event) {
+            event.preventDefault();
+            const form = document.getElementById('id-verification-form');
+            const formData = new FormData(form);
+
+            fetch('admin_id_verify.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('ID verification successful!');
+                    window.location.href = 'admin_security_login.html';
+                } else if (data.error) {
+                    alert(data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</head>
+<body>
+
+    <!-- ID Verification Section -->
+    <section id="id-verification" class="features">
+        <h2>Admin ID Verification</h2>
+        <div class="login-card">
+            <form id="id-verification-form" onsubmit="handleIDVerification(event)" method="POST">
+                <input type="text" id="admin_id" name="admin_id" placeholder="Admin ID" required>
+                <button type="submit">Verify ID</button>
+            </form>
+        </div>
+    </section>
+
+</body>
+</html>

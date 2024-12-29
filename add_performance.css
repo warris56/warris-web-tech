@@ -1,0 +1,200 @@
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+/* Root Variables for Theming */
+:root {
+    /* Light Theme Colors */
+    --primary-color: #4361ee;
+    --success-color: #2ec272;
+    --warning-color: #ffc107;
+    --danger-color: #ef4444;
+    --info-color: #3498db;
+    
+    /* Light Theme Background Colors */
+    --bg-main: #f8f9fa;
+    --bg-card: #ffffff;
+    --bg-sidebar: #ffffff;
+    --bg-header: #ffffff;
+    
+    /* Light Theme Text Colors */
+    --text-primary: #2d3748;
+    --text-secondary: #718096;
+    --text-muted: #a0aec0;
+    
+    /* Border Colors */
+    --border-color: #e2e8f0;
+    --border-hover: #cbd5e0;
+    
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+}
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    line-height: 1.5;
+}
+
+.add-performance-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+}
+
+h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm);
+    background-color: var(--bg-header);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    width: 100%;
+}
+
+nav a {
+    margin-right: var(--spacing-md);
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+nav a:hover {
+    color: var(--primary-color);
+    background-color: var(--bg-card);
+    box-shadow: var(--shadow-xs);
+}
+
+form {
+    margin-bottom: var(--spacing-xl);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label {
+    display: block;
+    margin-bottom: var(--spacing-sm);
+    text-align: center;
+}
+
+input[type="number"], input[type="text"] {
+    width: 100%;
+    padding: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+button[type="submit"] {
+    background-color: var(--primary-color);
+    color: white;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+button[type="submit"]:hover {
+    box-shadow: var(--shadow-xs);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .add-performance-container {
+        width: 100%;
+        padding: var(--spacing-md);
+    }
+}
+
+@media (max-width: 480px) {
+    .add-performance-container {
+        padding: var(--spacing-sm);
+    }
+}
+
+/* Accessibility */
+.add-performance-container {
+    tab-index: 0;
+}
+
+nav a:focus {
+    outline: 2px solid var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+button[type="submit"]:focus {
+    outline: 2px solid var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+input[type="number"]:focus, input[type="text"]:focus {
+    outline: 2px solid var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+/* Animations and Transitions */
+nav a {
+    transition: all 0.2s ease-in-out;
+}
+
+button[type="submit"] {
+    transition: all 0.2s ease-in-out;
+}
+
+input[type="number"], input[type="text"] {
+    transition: all 0.2s ease-in-out;
+}
+
+/* High Contrast Mode */
+.high-contrast {
+    background-color: #000;
+    color: #fff;
+}
+
+.high-contrast nav a {
+    color: #fff;
+}
+
+.high-contrast button[type="submit"] {
+    background-color: #fff;
+    color: #000;
+}
+
+.high-contrast input[type="number"], .high-contrast input[type="text"] {
+    background-color: #333;
+    color: #fff;
+}

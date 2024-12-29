@@ -1,0 +1,219 @@
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+/* Root Variables for Theming */
+:root {
+    /* Light Theme Colors */
+    --primary-color: #4361ee;
+    --success-color: #2ec272;
+    --warning-color: #ffc107;
+    --danger-color: #ef4444;
+    --info-color: #3498db;
+    
+    /* Light Theme Background Colors */
+    --bg-main: #f8f9fa;
+    --bg-card: #ffffff;
+    --bg-sidebar: #ffffff;
+    --bg-header: #ffffff;
+    
+    /* Light Theme Text Colors */
+    --text-primary: #2d3748;
+    --text-secondary: #718096;
+    --text-muted: #a0aec0;
+    
+    /* Border Colors */
+    --border-color: #e2e8f0;
+    --border-hover: #cbd5e0;
+    
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+}
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    line-height: 1.5;
+}
+
+.view-performance-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+}
+
+h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm);
+    background-color: var(--bg-header);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    width: 100%;
+}
+
+nav a {
+    margin-right: var(--spacing-md);
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+nav a:hover {
+    color: var(--primary-color);
+    background-color: var(--bg-card);
+    box-shadow: var(--shadow-xs);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: var(--spacing-xl);
+}
+
+th, td {
+    border: 1px solid var(--border-color);
+    padding: var(--spacing-sm);
+    text-align: left;
+}
+
+th {
+    background-color: var(--bg-header);
+    color: var(--text-primary);
+}
+
+td {
+    background-color: var(--bg-card);
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f2f2f2;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .view-performance-container {
+        width: 100%;
+        padding: var(--spacing-md);
+    }
+    
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    th, td {
+        display: block;
+        border: none;
+        padding: var(--spacing-sm);
+    }
+    
+    th {
+        background-color: transparent;
+    }
+    
+    td {
+        background-color: var(--bg-card);
+    }
+}
+
+/* Accessibility */
+.view-performance-container {
+    tab-index: 0;
+}
+
+nav a:focus {
+    outline: 2px solid var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+table {
+    tab-index: 0;
+}
+
+th:focus {
+    outline: 2px solid var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+td:focus {
+    outline: 2px solid var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+/* Animations and Transitions */
+nav a {
+    transition: all 0.2s ease-in-out;
+}
+
+table tr {
+    transition: all 0.2s ease-in-out;
+}
+
+table tr:hover {
+    background-color: #f2f2f2;
+}
+
+/* High Contrast Mode */
+.high-contrast {
+    background-color: #000;
+    color: #fff;
+}
+
+.high-contrast nav a {
+    color: #fff;
+}
+
+.high-contrast table th {
+    background-color: #333;
+    color: #fff;
+}
+
+.high-contrast table td {
+    background-color: #444;
+    color: #fff;
+}
+
+.high-contrast table tr:nth-child(even) {
+    background-color: #555;
+}
+
+.high-contrast table tr:hover {
+    background-color: #666;
+}

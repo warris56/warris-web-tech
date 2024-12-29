@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwiftPay Payroll System</title>
+    <link rel="stylesheet" href="indexs.css">
+    <script>
+        function handleLogin(event) {
+            event.preventDefault();
+            const form = document.getElementById('login-form');
+            const formData = new FormData(form);
+
+            fetch('login_process.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    if (data.role === 'admin') {
+                        alert('Admin login successful!');
+                        window.location.href = 'admin_id_login.html';
+                    } else if (data.role === 'employee') {
+                        alert('Employee login successful!');
+                        window.location.href = 'employee_id_verify.html';
+                    }
+                } else if (data.error) {
+                    alert(data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.onscroll = function() {
+            document.querySelector('.back-to-top').style.display = window.scrollY > 100 ? 'block' : 'none';
+        };
+    </script>
+</head>
+<body>
+
+    <!-- Header Section with Typewriter Effect -->
+    <div id="header" class="header">
+        <h1>Welcome to <span class="typewriter">SwiftPay</span></h1>
+        <p>Your trusted payroll management partner for seamless and efficient operations.</p>
+    </div>
+
+    <!-- Login Section -->
+    <section id="features" class="features">
+        <h2>Login to SwiftPay</h2>
+        <div class="login-card">
+            <form id="login-form" onsubmit="handleLogin(event)" method="POST">
+                <input type="text" id="username" name="username" placeholder="Username" required>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <button type="submit">Log In</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Back-to-Top Button -->
+    <div class="back-to-top" onclick="scrollToTop()">⬆</div>
+
+    <!-- Footer Section with Social Media Icons -->
+    <footer class="footer">
+        <p>© 2024 SwiftPay Payroll System. All rights reserved.</p>
+        <p><a href="#">Terms of Service</a> | <a href="#">Privacy Policy</a></p>
+    </footer>
+
+</body>
+</html>
